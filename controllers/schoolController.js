@@ -15,6 +15,7 @@ function getDistance(lat1, lon1, lat2, lon2) {
 
 export const addSchool = (req, res) => {
   const { name, address, latitude, longitude } = req.body;
+  console.log("Received Body:", req.body);
 
   if (!name || !address || isNaN(latitude) || isNaN(longitude)) {
     return res.status(400).json({ error: 'Invalid input' });
@@ -34,8 +35,9 @@ export const listSchools = (req, res) => {
     return res.status(400).json({ error: 'Invalid coordinates' });
   }
 
-  School.getAllSchools((err, results) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
+  School.getAllSchools((err, results) => { 
+    console.log(err);
+    if (err) return res.status(500).json({ error: 'Database error' }) 
 
     const sorted = results.map(school => {
       const distance = getDistance(lat, lng, school.latitude, school.longitude);
